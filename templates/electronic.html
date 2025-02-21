@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics and Gadgets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        .product {
+            background-color: rgb(195, 214, 197);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        h3, h4, h5 {
+            margin: 10px 0;
+        }
+
+        p {
+            margin: 0;
+            color: #555;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Gadget Hub</h1>
+        <input type="text" placeholder="Search for gadgets..." id="searchBox">
+    </header>
+
+    <nav>
+        <button onclick="filterCategory('all')">All</button>
+        <button onclick="filterCategory('phones')">Phones</button>
+        <button onclick="filterCategory('laptops')">Laptops</button>
+        <button onclick="filterCategory('accessories')">Accessories</button>
+    </nav>
+
+    <section id="product-list">
+        <div class="product phone">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Latest Smartphone">
+            <h3>Latest Smartphone</h3>
+            <p>$699.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product laptop">
+            <img src="https://5.imimg.com/data5/JL/QW/MY-2974783/computer-laptop-500x500.jpg" alt="High-Performance Laptop">
+            <h3>High-Performance Laptop</h3>
+            <p>$1299.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_PMYOAavmiNDnfCcf9b6a6OS-rfbnPxRc6w&s" alt="Wireless Headphones">
+            <h3>Wireless Headphones</h3>
+            <p>$199.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREJ10C6v5lCmFrxRFDSPGpTnBGMYSe5uEF3A&salt" alt="LCD">
+            <h4>LCD</h4>
+            <p>$159.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Washing Machine">
+            <h4>Washing Machine</h4>
+            <p>$193.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Vacuum Cleaner">
+            <h5>Vacuum Cleaner</h5>
+            <p>$199.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbHQff80j6G6eywqd6ARqmeyA6Oq3MAyMBVQ&s" alt="Dryer">
+            <h4>Dryer</h4>
+            <p>$193.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <div class="product accessory">
+            <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/..." alt="Dish Washer">
+            <h4>Dish Washer</h4>
+            <p>$193.99</p>
+            <button>Add to Cart</button>
+        </div>
+        <!-- Add more products similarly -->
+    </section>
+
+    <script>
+        function filterCategory(category) {
+            const products = document.querySelectorAll('.product');
+            
+            products.forEach(product => {
+                product.style.display = (category === 'all' || product.classList.contains(category)) ? 'block' : 'none';
+            });
+        }
+
+        // Optional: Search functionality can be added here
+        document.getElementById('searchBox').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const name = product.querySelector('h3') ? product.querySelector('h3').textContent.toLowerCase() : product.querySelector('h4').textContent.toLowerCase();
+                product.style.display = name.includes(query) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

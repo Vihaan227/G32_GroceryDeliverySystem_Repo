@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Fresh groceries at your doorstep</h1>
+                    <p class="lead mb-4">Explore the best deals from top stores in your area.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary btn-lg me-3">Shop Now</button>
+                        <button class="btn btn-outline-primary btn-lg">Browse Stores</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://www.mashed.com/img/gallery/5-grocery-stores-are-in-for-big-changes-in-2025/intro-1733865622.jpg" alt="Grocery Delivery" class="img-fluid rounded-4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discount Section -->
+    <section class="discount-section">
+        <div class="container">
+            <h2 class="section-title">Top Deals & Discounts</h2>
+            <div class="discount-carousel">
+                <div class="row">
+                    {% for store in top_stores %}
+                    <div class="col-md-4 mb-4">
+                        <div class="discount-card d-flex flex-column justify-content-between" style="height: 100%;">
+                            <img src="{% if store.name == 'Store A' %}https://logos-world.net/wp-content/uploads/2022/02/Sephora-Emblem.png{% elif store.name == 'Store B' %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX01gEES9nnFnJ7LTz1P8ZCUGXL9770BvA6A&s{% elif store.name == 'Store C' %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwfn5OlOfiPEYKpF9Oh9jovz7XZl3wuYLUvw&s{% else %}https://www.mashed.com/img/gallery/5-grocery-stores-are-in-for-big-changes-in-2025/intro-1733865622.jpg{% endif %}" alt="{{ store.name }}" class="img-fluid" style="max-width: 100%; height: auto; padding: 10px;">
+                            <div class="discount-content">
+                                <h3>
+                                    {% if store.name == "Store A" %}
+                                        Sephora
+                                    {% elif store.name == "Store B" %}
+                                        Costco
+                                    {% elif store.name == "Store C" %}
+                                        Total Wine
+                                    {% else %}
+                                        {{ store.name }}
+                                    {% endif %}
+                                </h3>
+                                <p>
+                                    {% if store.name == "Store A" %}
+                                        Save up to 40% on Sephora
+                                    {% elif store.name == "Store B" %}
+                                        Save up to 30% on the products
+                                    {% elif store.name == "Store C" %}
+                                        Save up to 25% on Wine & Beers!
+                                    {% else %}
+                                        Save up to {{ store.discount }}% on groceries
+                                    {% endif %}
+                                </p>
+                                <a href="{% if store.name == 'Store A' %}https://sephora.in/collection/sale?utm_source=Google&utm_medium=google-search&utm_campaign=Vib_Brand-Search_Sephora_Retail-21011981696&utm_content=-159080526877-732522475596&gad_source=1&gbraid=0AAAAADbZS8KkOys8ikQ6WoxpogtZnAaGl&gclid=CjwKCAiAk8G9BhA0EiwAOQxmfkpz9BA79-3TbLNgJcDUcyxN1pPhXfRkEirsONHO1q7r0--ME_qyVhoC-C4QAvD_BwE{% elif store.name == 'Store B' %}https://www.costco.com{% elif store.name == 'Store C' %}https://www.totalwine.com{% else %}# {% endif %}" class="btn btn-primary">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Categories Section -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title">Shop by Category</h2>
+            <div class="category-filters mb-4">
+                <button class="btn btn-outline-primary active" data-filter="all">All</button>
+                <button class="btn btn-outline-primary" data-filter="fastest-growing">Fastest Growing</button>
+                <button class="btn btn-outline-primary" data-filter="electronics">Electronics</button>
+                <button class="btn btn-outline-primary" data-filter="alcohol">Alcohol & Liquor</button>
+                <button class="btn btn-outline-primary" data-filter="wholesale">Wholesale</button>
+                <button class="btn btn-outline-primary" data-filter="retail">Retail</button>
+                <button class="btn btn-outline-primary" data-filter="self-pickup">Self Pickup</button>
+                <button class="btn btn-outline-primary" data-filter="grocery">Grocery</button>
+            </div>
+            <div class="row g-4" id="category-grid">
+                {% for category in categories %}
+                <div class="col-md-3 col-sm-6 category-item" data-category="{{ category.filter }}">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="{{ category.icon }}"></i>
+                        </div>
+                        <h3>{{ category.name }}</h3>
+                        <p>{{ category.description }}</p>
+
+                        <a href="{{url_for(category.link)}}" class="stretched-link"></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+<!-- Fastest Growing Stores Section -->
+<section class="trending-stores-section" style="margin-bottom: 50px;">
+    <div class="container">
+        <h2 class="section-title">Fastest Growing Stores</h2>
+        <div class="row g-4">
+            {% for store in fastest_growing_stores %}
+            <div class="col-md-4 col-sm-6">
+                <div class="store-card" style="padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); height: 100%;">
+                    <div class="store-rank" style="position: absolute; top: 10px; right: 10px; background: #007bff; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        {{ loop.index }}
+                    </div>
+                    <img src="{{ store.image }}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 4px; margin-bottom: 15px;">
+                    <div class="store-content">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 10px;">{{ store.name }}</h3>
+                        <div class="store-rating" data-rating="{{ store.rating }}" style="margin-bottom: 10px;">
+                            <span class="stars"></span>
+                            <span>({{ store.rating }})</span>
+                        </div>
+                        <p style="margin-bottom: 15px; min-height: 60px;">{{ store.description }}</p>
+                        <a href="{% if loop.index == 1 %}https://techmartunbox.com{% elif loop.index == 2 %}https://www.thefreshgrocer.com/sm/pickup/rsid/2000{% elif loop.index == 3 %}https://www.indiamart.com/bulk-bull/profile.html?srsltid=AfmBOoqgMHlpyxwk0k4ZrJDbr2UjX85ffG_zlla9kqDt4T13o5kvhAVU{% endif %}" class="btn btn-primary" style="width: 100%;">Visit Store</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
