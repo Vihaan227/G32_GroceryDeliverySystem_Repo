@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    :root {
+        --primary-green: #4caf50;
+        --light-green: #e8f5e9;
+        --text-dark: #333333;
+        --text-light: #666666;
+    }
+    
+    body {
+        background-color: var(--light-green);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    /* Main content styles */
+    .main-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+    
+    .login-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        max-width: 450px;
+        width: 100%;
+        overflow: hidden;
+        margin: 0 auto;
+        transform: translateY(20px);
+        opacity: 0;
+        animation: slideUp 0.6s ease forwards 0.3s;
+        transition: all 0.4s ease;
+    }
+    
+    .login-card:hover {
+        transform: translateY(-5px) scale(1.01);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
+    }
+    
+    .login-header {
+        background-color: var(--primary-green);
+        color: white;
+        padding: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-header:before {
+        content: '';
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        top: -50%;
+        left: -50%;
+        transform: rotate(45deg);
+        animation: shimmer 3s infinite linear;
+    }
+    
+    .login-header i {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        display: block;
+        animation: pulse 2s infinite;
+    }
+    
+    .login-body {
+        padding: 2rem;
+    }
+    
+    .form-control {
+        border-radius: 6px;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-green);
+        box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+        transform: translateY(-3px);
+    }
+    
+    .btn-grocery {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+        color: white;
+        padding: 0.7rem 0;
+        font-weight: 600;
+        width: 100%;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .btn-grocery:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: all 0.6s;
+        z-index: -1;
+    }
+    
+    .btn-grocery:hover {
+        background-color: #43a047;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+    
+    .btn-grocery:hover:before {
+        left: 100%;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+    }
+    
+    .forgot-link {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color 0.3s, transform 0.3s;
+        display: inline-block;
+    }
+    
+    .forgot-link:hover {
+        color: var(--primary-green);
+        transform: translateX(3px);
+    }
+    
+    .signup-link {
+        color: var(--primary-green);
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        position: relative;
+    }
+    
+    .signup-link:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -2px;
+        left: 0;
+        background-color: var(--primary-green);
+        transition: width 0.3s ease;
+    }
+    
+    .signup-link:hover:after {
+        width: 100%;
+    }
+    
+    /* Category pill styles */
+    .benefits-section {
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards 0.9s;
+    }
+    
+    .category-pill {
+        display: inline-block;
+        background-color: #f1f8e9;
+        color: var(--text-dark);
+        border-radius: 20px;
+        padding: 0.5rem 1rem;
+        margin: 0.25rem;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        transform: scale(1);
+    }
+    
+    .category-pill:hover {
+        background-color: var(--primary-green);
+        color: white;
+        transform: scale(1.05) translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Animation keyframes */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+        from { 
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        to { 
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-150%) rotate(45deg); }
+        100% { transform: translateX(150%) rotate(45deg); }
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Animation for form elements */
+    .form-element {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    
+    .username-field {
+        animation: slideUp 0.5s ease forwards 0.5s;
+    }
+    
+    .password-field {
+        animation: slideUp 0.5s ease forwards 0.7s;
+    }
+    
+    .remember-section {
+        animation: slideUp 0.5s ease forwards 0.8s;
+    }
+    
+    .submit-button {
+        animation: slideUp 0.5s ease forwards 0.9s;
+    }
+    
+    .signup-section {
+        animation: slideUp 0.5s ease forwards 1s;
+    }
+</style>
+
+<div class="main-content">
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-card">
+                    <div class="login-header">
+                        <i class="fas fa-user-circle"></i>
+                        <h4>Account Login</h4>
+                    </div>
+                    <div class="login-body">
+                        <form method="POST">
+                            <div class="mb-3 form-element username-field">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3 form-element password-field">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required minlength="8"> 
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-4 form-element remember-section">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <a href="#" class="forgot-link">Forgot password?</a>
+                            </div>
+                            <div class="form-element submit-button">
+                                <button type="submit" class="btn btn-grocery">
+                                    Login
+                                </button>
+                            </div>
+                            
+                            <div class="text-center mt-4 form-element signup-section">
+                                <p class="mb-0">Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Login benefits section -->
+                <div class="text-center mt-4 benefits-section">
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <span class="category-pill"><i class="fas fa-truck me-1"></i> Fast Delivery</span>
+                        <span class="category-pill"><i class="fas fa-percent me-1"></i> Exclusive Deals</span>
+                        <span class="category-pill"><i class="fas fa-history me-1"></i> Order History</span>
+                        <span class="category-pill"><i class="fas fa-heart me-1"></i> Save Favorites</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
