@@ -1,0 +1,23 @@
+/* Color Variables */
+:root {
+    --primary-color: #4CAF50;
+    --secondary-color: #2196F3;
+    --accent-color: #FF9800;
+    --hover-color: #45a049;
+    --light-bg: #f8faf8;
+}
+
+/* All your existing styles */
+.hero-section {
+    background: linear-gradient(135deg, var(--light-bg) 0%, #ffffff 100%);
+    animation: fadeInUp 1s ease-out;
+}
+
+/* ... rest of your styles ... */ 
+
+#categories-grid{
+    display: flex;  
+}
+#categories-grid>div{
+    border: 2px solid red;  
+}
